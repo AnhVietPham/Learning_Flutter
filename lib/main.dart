@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import './product_manager.dart';
-void main() => runApp(MyApp());
+import 'assignment_1/assignment.dart';
+void main() => runApp(Assignment());
 
 class MyApp extends StatelessWidget {
   @override
