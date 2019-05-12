@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import './product_manager.dart';
 import 'assignment_1/assignment.dart';
-void main() => runApp(Assignment());
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   @override
@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
           appBar: AppBar(
             title: Text("EasyList"),
           ),
-          body: ProductManager('Food Tester')),
+          body: ProductManager()),
     );
   }
 }
