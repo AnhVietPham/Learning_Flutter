@@ -14,7 +14,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  List<Map<String, String>> _product = [];
+  List<Map<String, dynamic>> _product = [];
 
   void _addProducts(Map<String, dynamic> product) {
     setState(() {
@@ -33,10 +33,10 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(primarySwatch: Colors.deepOrange),
-      initialRoute: 'authPage',
+      initialRoute: '/',
       routes: {
-        'authPage': (BuildContext context) => AuthPage(),
-        '/': (BuildContext context) => ProductsPage(_product),
+        '/': (BuildContext context) => AuthPage(),
+        '/products': (BuildContext context) => ProductsPage(_product),
         '/admin': (BuildContext context) =>
             ProductsAdminPage(_addProducts, _deleteProduct),
       },
