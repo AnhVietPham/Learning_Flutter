@@ -48,8 +48,11 @@ class _MyAppState extends State<MyApp> {
         if (pathElements[1] == 'product') {
           final int index = int.parse(pathElements[2]);
           return MaterialPageRoute<bool>(
-            builder: (BuildContext context) =>
-                ProductPage(_product[index]['title'], _product[index]['image']),
+            builder: (BuildContext context) => ProductPage(
+                _product[index]['title'],
+                _product[index]['image'],
+                _product[index]['price'],
+                _product[index]['description']),
           );
         }
         return null;
