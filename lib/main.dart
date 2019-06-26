@@ -32,11 +32,16 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(primarySwatch: Colors.deepOrange),
-      initialRoute: 'authPage',
+      theme: ThemeData(
+        brightness: Brightness.light,
+        primarySwatch: Colors.deepOrange,
+        accentColor: Colors.deepPurple,
+        buttonColor: Colors.deepPurple,
+      ),
+      initialRoute: '/',
       routes: {
-        'authPage': (BuildContext context) => AuthPage(),
-        '/': (BuildContext context) => ProductsPage(_product),
+        '/': (BuildContext context) => AuthPage(),
+        '/products': (BuildContext context) => ProductsPage(_product),
         '/admin': (BuildContext context) =>
             ProductsAdminPage(_addProducts, _deleteProduct),
       },
@@ -48,8 +53,11 @@ class _MyAppState extends State<MyApp> {
         if (pathElements[1] == 'product') {
           final int index = int.parse(pathElements[2]);
           return MaterialPageRoute<bool>(
-            builder: (BuildContext context) =>
-                ProductPage(_product[index]['title'], _product[index]['image']),
+            builder: (BuildContext context) => ProductPage(
+                _product[index]['title'],
+                _product[index]['image'],
+                _product[index]['price'],
+                _product[index]['description']),
           );
         }
         return null;
