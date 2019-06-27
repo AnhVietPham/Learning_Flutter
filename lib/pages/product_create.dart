@@ -12,9 +12,12 @@ class ProductCreatePage extends StatefulWidget {
 }
 
 class _ProductCreatePageState extends State<ProductCreatePage> {
-  String titleValue;
-  String descriptionValue;
-  double priceValue;
+  final Map<String, dynamic> fromData = {
+    'title': null,
+    'description': null,
+    'price': null,
+    'image': 'assets/android.jpg'
+  };
   final GlobalKey<FormState> fromState = GlobalKey<FormState>();
 
   Widget _buildTitleTextField() {
@@ -26,9 +29,7 @@ class _ProductCreatePageState extends State<ProductCreatePage> {
         }
       },
       onSaved: (String value) {
-        setState(() {
-          titleValue = value;
-        });
+        fromData['title'] = value;
       },
     );
   }
@@ -43,9 +44,7 @@ class _ProductCreatePageState extends State<ProductCreatePage> {
         }
       },
       onSaved: (String value) {
-        setState(() {
-          descriptionValue = value;
-        });
+        fromData['description'] = value;
       },
     );
   }
@@ -54,15 +53,14 @@ class _ProductCreatePageState extends State<ProductCreatePage> {
     return TextFormField(
       decoration: InputDecoration(labelText: 'Price Title'),
       keyboardType: TextInputType.number,
-      validator: (String value){
-        if (value.isEmpty || RegExp(r'^(?:[1-9]\d*|0)?(?:[.,]\d+)?$').hasMatch(value)) {
-          return 'Price is required and should be a number';
-        }
-      },
+//      validator: (String value) {
+//        if (value.isEmpty ||
+//            RegExp(r'^(?:[1-9]\d*|0)?(?:[.,]\d+)?$').hasMatch(value)) {
+//          return 'Price is required and should be a number';
+//        }
+//      },
       onSaved: (String value) {
-        setState(() {
-          priceValue = double.parse(value);
-        });
+        fromData['price'] = double.parse(value);
       },
     );
   }
@@ -72,13 +70,7 @@ class _ProductCreatePageState extends State<ProductCreatePage> {
       return;
     }
     fromState.currentState.save();
-    final Map<String, dynamic> product = {
-      'title': titleValue,
-      'description': descriptionValue,
-      'price': priceValue,
-      'image': 'assets/android.jpg'
-    };
-    widget.addProduct(product);
+    widget.addProduct(fromData);
     Navigator.pushReplacementNamed(context, '/products');
   }
 
@@ -87,26 +79,31 @@ class _ProductCreatePageState extends State<ProductCreatePage> {
     final double deviceWith = MediaQuery.of(context).size.width;
     final double targetWith = deviceWith > 550.0 ? 500.0 : deviceWith * 0.95;
     final double targetPadding = deviceWith - targetWith;
-    return Container(
-      margin: EdgeInsets.all(10.0),
-      child: Form(
-        key: fromState,
-        child: ListView(
-            padding: EdgeInsets.symmetric(horizontal: targetPadding),
-            children: <Widget>[
-              _buildTitleTextField(),
-              _buildDescriptionTextField(),
-              _buildPriceTextField(),
-              SizedBox(
-                height: 10.0,
-              ),
-              RaisedButton(
-                child: Text('Save'),
-                color: Theme.of(context).accentColor,
-                textColor: Colors.white,
-                onPressed: _submitForm,
-              )
-            ]),
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).requestFocus(FocusNode());
+      },
+      child: Container(
+        margin: EdgeInsets.all(10.0),
+        child: Form(
+          key: fromState,
+          child: ListView(
+              padding: EdgeInsets.symmetric(horizontal: targetPadding),
+              children: <Widget>[
+                _buildTitleTextField(),
+                _buildDescriptionTextField(),
+                _buildPriceTextField(),
+                SizedBox(
+                  height: 10.0,
+                ),
+                RaisedButton(
+                  child: Text('Save'),
+                  color: Theme.of(context).accentColor,
+                  textColor: Colors.white,
+                  onPressed: _submitForm,
+                )
+              ]),
+        ),
       ),
     );
   }
