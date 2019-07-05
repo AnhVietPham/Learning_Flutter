@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 
-class ProductCreatePage extends StatefulWidget {
+class ProductEditPage extends StatefulWidget {
   final Function addProduct;
+  final Function updateProduct;
+  final Map<String, dynamic> product;
 
-  ProductCreatePage(this.addProduct);
+  ProductEditPage({this.addProduct, this.updateProduct, this.product});
 
   @override
   State<StatefulWidget> createState() {
-    return _ProductCreatePageState();
+    return _ProductEditPageState();
   }
 }
 
-class _ProductCreatePageState extends State<ProductCreatePage> {
+class _ProductEditPageState extends State<ProductEditPage> {
   final Map<String, dynamic> fromData = {
     'title': null,
     'description': null,
@@ -53,12 +55,12 @@ class _ProductCreatePageState extends State<ProductCreatePage> {
     return TextFormField(
       decoration: InputDecoration(labelText: 'Price Title'),
       keyboardType: TextInputType.number,
-//      validator: (String value) {
+      validator: (String value) {
 //        if (value.isEmpty ||
 //            RegExp(r'^(?:[1-9]\d*|0)?(?:[.,]\d+)?$').hasMatch(value)) {
 //          return 'Price is required and should be a number';
 //        }
-//      },
+      },
       onSaved: (String value) {
         fromData['price'] = double.parse(value);
       },
