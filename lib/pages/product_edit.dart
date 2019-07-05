@@ -4,8 +4,10 @@ class ProductEditPage extends StatefulWidget {
   final Function addProduct;
   final Function updateProduct;
   final Map<String, dynamic> product;
+  final int productIndex;
 
-  ProductEditPage({this.addProduct, this.updateProduct, this.product});
+  ProductEditPage(
+      {this.addProduct, this.updateProduct, this.product, this.productIndex});
 
   @override
   State<StatefulWidget> createState() {
@@ -25,6 +27,7 @@ class _ProductEditPageState extends State<ProductEditPage> {
   Widget _buildTitleTextField() {
     return TextFormField(
       decoration: InputDecoration(labelText: 'Product Title'),
+      initialValue: widget.product == null ? '' : widget.product['title'],
       validator: (String value) {
         if (value.isEmpty) {
           return 'Title is required';
@@ -39,6 +42,7 @@ class _ProductEditPageState extends State<ProductEditPage> {
   Widget _buildDescriptionTextField() {
     return TextFormField(
       decoration: InputDecoration(labelText: 'Description Title'),
+      initialValue: widget.product == null ? '' : widget.product['description'],
       maxLines: 4,
       validator: (String value) {
         if (value.isEmpty || value.length < 10) {
@@ -54,12 +58,14 @@ class _ProductEditPageState extends State<ProductEditPage> {
   Widget _buildPriceTextField() {
     return TextFormField(
       decoration: InputDecoration(labelText: 'Price Title'),
+      initialValue:
+          widget.product == null ? '' : widget.product['price'].toString(),
       keyboardType: TextInputType.number,
       validator: (String value) {
-//        if (value.isEmpty ||
-//            RegExp(r'^(?:[1-9]\d*|0)?(?:[.,]\d+)?$').hasMatch(value)) {
-//          return 'Price is required and should be a number';
-//        }
+        if (value.isEmpty ||
+            !RegExp(r'^(?:[1-9]\d*|0)?(?:[.,]\d+)?$').hasMatch(value)) {
+          return 'Price is required and should be a number';
+        }
       },
       onSaved: (String value) {
         fromData['price'] = double.parse(value);
@@ -72,7 +78,12 @@ class _ProductEditPageState extends State<ProductEditPage> {
       return;
     }
     fromState.currentState.save();
-    widget.addProduct(fromData);
+    if (widget.product == null) {
+      widget.addProduct(fromData);
+    } else {
+      widget.updateProduct(widget.productIndex, fromData);
+    }
+
     Navigator.pushReplacementNamed(context, '/products');
   }
 
@@ -81,7 +92,7 @@ class _ProductEditPageState extends State<ProductEditPage> {
     final double deviceWith = MediaQuery.of(context).size.width;
     final double targetWith = deviceWith > 550.0 ? 500.0 : deviceWith * 0.95;
     final double targetPadding = deviceWith - targetWith;
-    return GestureDetector(
+    final Widget pageContent = GestureDetector(
       onTap: () {
         FocusScope.of(context).requestFocus(FocusNode());
       },
@@ -108,5 +119,13 @@ class _ProductEditPageState extends State<ProductEditPage> {
         ),
       ),
     );
+    return widget.product == null
+        ? pageContent
+        : Scaffold(
+            appBar: AppBar(
+              title: Text('Edit Product'),
+            ),
+            body: pageContent,
+          );
   }
 }
