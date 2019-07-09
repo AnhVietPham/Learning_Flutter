@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
+import '../models/product.dart';
 import '../widgets/helper/ensure_visible.dart';
 
 class ProductEditPage extends StatefulWidget {
   final Function addProduct;
   final Function updateProduct;
-  final Map<String, dynamic> product;
+  final Product product;
   final int productIndex;
 
   ProductEditPage(
@@ -34,7 +35,7 @@ class _ProductEditPageState extends State<ProductEditPage> {
       focusNode: _titleFocusNode,
       child: TextFormField(
         decoration: InputDecoration(labelText: 'Product Title'),
-        initialValue: widget.product == null ? '' : widget.product['title'],
+        initialValue: widget.product == null ? '' : widget.product.title,
         validator: (String value) {
           if (value.isEmpty) {
             return 'Title is required';
@@ -52,8 +53,7 @@ class _ProductEditPageState extends State<ProductEditPage> {
       focusNode: _descriptionFocusNode,
       child: TextFormField(
         decoration: InputDecoration(labelText: 'Description Title'),
-        initialValue:
-            widget.product == null ? '' : widget.product['description'],
+        initialValue: widget.product == null ? '' : widget.product.description,
         maxLines: 4,
         validator: (String value) {
           if (value.isEmpty || value.length < 10) {
@@ -73,7 +73,7 @@ class _ProductEditPageState extends State<ProductEditPage> {
       child: TextFormField(
         decoration: InputDecoration(labelText: 'Price Title'),
         initialValue:
-            widget.product == null ? '' : widget.product['price'].toString(),
+            widget.product == null ? '' : widget.product.price.toString(),
         keyboardType: TextInputType.number,
         validator: (String value) {
           if (value.isEmpty ||
@@ -127,9 +127,19 @@ class _ProductEditPageState extends State<ProductEditPage> {
     }
     fromState.currentState.save();
     if (widget.product == null) {
-      widget.addProduct(fromData);
+      widget.addProduct(Product(
+          title: fromData['title'],
+          description: fromData['description'],
+          image: fromData['image'],
+          price: fromData['price']));
     } else {
-      widget.updateProduct(widget.productIndex, fromData);
+      widget.updateProduct(
+          widget.productIndex,
+          Product(
+              title: fromData['title'],
+              description: fromData['description'],
+              image: fromData['image'],
+              price: fromData['price']));
     }
 
     Navigator.pushReplacementNamed(context, '/products');
