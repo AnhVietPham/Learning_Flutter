@@ -6,7 +6,7 @@ A Complete Guide to the Flutter SDK & Flutter Framework for building native IOS 
 * NO prior iOS or Android development experience is required.
 * NO prior Flutter or Dart experience is required - this course starts at zero!
 ## Description
-### Here's what's included in the course:
+### Here's what's included in this project:
 * Detailed setup instructions for both macOS and Windows.
 * A thorough introduction to Flutter, Dart and the concept behind widgets.
 * An overview of the built-in widgets and how you may add your own ones.
@@ -18,3 +18,4 @@ A Complete Guide to the Flutter SDK & Flutter Framework for building native IOS 
 * Using native device features like the camera.
 * Adding beautiful animations & page transitions.
 * How to publish your app to the app stores.
+
