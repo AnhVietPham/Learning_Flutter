@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:scoped_model/scoped_model.dart';
 
-import '../models/product.dart';
+import '../scoped_models/products.dart';
 import '../widgets/products/products.dart';
 
 class ProductsPage extends StatelessWidget {
-  final List<Product> products;
-
-  ProductsPage(this.products);
-
   Widget _buildSlideDrawer(BuildContext context) {
     return Drawer(
       child: Column(
@@ -30,12 +27,15 @@ class ProductsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: _buildSlideDrawer(context),
-      appBar: AppBar(
-        title: Text("EasyList"),
+    return ScopedModel<ProductModel>(
+      model: ProductModel(),
+      child: Scaffold(
+        drawer: _buildSlideDrawer(context),
+        appBar: AppBar(
+          title: Text("EasyList"),
+        ),
+        body: Products(),
       ),
-      body: Products(products),
     );
   }
 }

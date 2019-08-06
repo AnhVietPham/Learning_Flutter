@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 import '../models/product.dart';
+import '../scoped_models/products.dart';
 import '../widgets/helper/ensure_visible.dart';
 
 class ProductEditPage extends StatefulWidget {
@@ -88,6 +90,19 @@ class _ProductEditPageState extends State<ProductEditPage> {
     );
   }
 
+  Widget _buildSubmitButton() {
+    return ScopedModelDescendant<ProductModel>(
+      builder: (BuildContext context, Widget child, ProductModel model) {
+        return RaisedButton(
+          child: Text('Save'),
+          color: Theme.of(context).accentColor,
+          textColor: Colors.white,
+          onPressed: () => _submitForm(model.addProducts, model.updateProduct),
+        );
+      },
+    );
+  }
+
   Widget _buildPageContent(BuildContext context) {
     final double deviceWith = MediaQuery.of(context).size.width;
     final double targetWith = deviceWith > 550.0 ? 500.0 : deviceWith * 0.95;
@@ -109,31 +124,26 @@ class _ProductEditPageState extends State<ProductEditPage> {
                 SizedBox(
                   height: 10.0,
                 ),
-                RaisedButton(
-                  child: Text('Save'),
-                  color: Theme.of(context).accentColor,
-                  textColor: Colors.white,
-                  onPressed: _submitForm,
-                )
+                _buildSubmitButton()
               ]),
         ),
       ),
     );
   }
 
-  void _submitForm() {
+  void _submitForm(Function addProduct, Function updateProduct) {
     if (!fromState.currentState.validate()) {
       return;
     }
     fromState.currentState.save();
     if (widget.product == null) {
-      widget.addProduct(Product(
+      addProduct(Product(
           title: fromData['title'],
           description: fromData['description'],
           image: fromData['image'],
           price: fromData['price']));
     } else {
-      widget.updateProduct(
+      updateProduct(
           widget.productIndex,
           Product(
               title: fromData['title'],

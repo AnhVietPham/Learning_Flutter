@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import './pages/auth.dart';
 import 'package:flutter_app/pages/product_admin.dart';
-import './pages/products.dart';
+
+import './pages/auth.dart';
 import './pages/product.dart';
+import './pages/products.dart';
 
 void main() => runApp(MyApp());
 
@@ -14,7 +15,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -28,8 +28,7 @@ class _MyAppState extends State<MyApp> {
       routes: {
         '/': (BuildContext context) => AuthPage(),
         '/products': (BuildContext context) => ProductsPage(),
-        '/admin': (BuildContext context) =>
-            ProductsAdminPage(),
+        '/admin': (BuildContext context) => ProductsAdminPage(),
       },
       onGenerateRoute: (RouteSettings setting) {
         final List<String> pathElements = setting.name.split('/');
@@ -39,7 +38,8 @@ class _MyAppState extends State<MyApp> {
         if (pathElements[1] == 'product') {
           final int index = int.parse(pathElements[2]);
           return MaterialPageRoute<bool>(
-            builder: (BuildContext context) => ProductPage(),
+            builder: (BuildContext context) =>
+                ProductPage(null, null, null, null),
           );
         }
         return null;
