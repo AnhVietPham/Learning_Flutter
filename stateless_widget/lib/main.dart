@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:statelesswidget/my_card.dart';
 
+// This is simple project which learn Stateless widget
 void main() => runApp(
   MaterialApp(
     home: StatelessApp(),
