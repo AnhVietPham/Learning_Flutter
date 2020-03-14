@@ -1,4 +1,5 @@
 import 'package:scoped_model/scoped_model.dart';
+
 import '../models/product.dart';
 
 class ProductModel extends Model {
