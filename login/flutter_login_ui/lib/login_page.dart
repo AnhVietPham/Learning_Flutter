@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterloginui/login_page_bloc.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -6,6 +7,10 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  TextEditingController _accountEditController = TextEditingController();
+  TextEditingController _passwordEditController = TextEditingController();
+  LoginPageBloc _loginPageBloc = LoginPageBloc();
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -13,7 +18,6 @@ class _LoginPageState extends State<LoginPage> {
       color: Colors.deepPurple,
       child: SingleChildScrollView(
         child: Container(
-          height: MediaQuery.of(context).size.height,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -42,6 +46,7 @@ class _LoginPageState extends State<LoginPage> {
                           Padding(
                             padding: const EdgeInsets.fromLTRB(10, 5, 10, 0),
                             child: TextField(
+                              controller: _accountEditController,
                               decoration: InputDecoration(
                                   labelText: 'Email or phone number',
                                   labelStyle: TextStyle(color: Colors.white),
@@ -63,6 +68,7 @@ class _LoginPageState extends State<LoginPage> {
                             padding: const EdgeInsets.fromLTRB(10, 20, 10, 10),
                             child: TextField(
                               obscureText: true,
+                              controller: _passwordEditController,
                               decoration: InputDecoration(
                                   labelText: 'Password',
                                   labelStyle: TextStyle(color: Colors.white),
@@ -97,7 +103,11 @@ class _LoginPageState extends State<LoginPage> {
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold,
                                       fontSize: 15)),
-                              onPressed: () {},
+                              onPressed: () {
+                                final account = _accountEditController.text;
+                                final password = _passwordEditController.text;
+                                _loginPageBloc.login(account, password);
+                              },
                             ),
                           ),
                           Container(
